@@ -1,0 +1,152 @@
+---
+title: "MATH 3340:Regression and Analysis of Variance"
+author: "Xinrui Chen, Chenxi Wang"
+date: 'Banner:  B00810720, B00753832'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+ knitr::opts_chunk$set(echo = TRUE)
+ knitr::opts_chunk$set(message = FALSE)
+ knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r}
+library(readr)
+Real_estate <- read_csv("~/Desktop/Real estate.csv")
+names(Real_estate)[2]<-paste("X1.transaction.date")
+names(Real_estate)[3]<-paste("X2.house.age")
+names(Real_estate)[4]<-paste("X3.distance.to.the.nearest.MRT.station")
+names(Real_estate)[5]<-paste("X4.number.of.convenience.stores")
+names(Real_estate)[6]<-paste("X5.latitude")
+names(Real_estate)[7]<-paste("X6.longitude")
+names(Real_estate)[8]<-paste("Y.house.price.of.unit.area")
+summary(Real_estate)
+```
+
+# Abstract:
+"In our project, we take the 414 real estate's transaction date (X1), age of the house (X2), distance to the nearest subway station (X3), number of convenience stores (X4), longitude (X5) and latitude (X6) are defined as independent variables. At the same time, the data of the price per unit area (Y) is defined as the dependent variable.Based on RStudio's regression analysis on the real estate data set, including linear regression and multiple regression, we mainly discuss what kind of houses are the most popular. Based on the conclusion of the price per unit area and six other influencing factors, we believe that the distance from subway stations and convenience stores are the main influencing factors. In addition, we have added a new set of data to further support this argument."
+
+
+# 1. Introduction.
+ Nowadays, in the context of rapid economic development, due to the continuous growth of per capita GDP and per capita income, people's requirements for the living environment are also increasing. This has led to a particularly rapid development in the real estate industry. In this article, we have studied the influencing factors of the real estate price per square meter from 2012 to 2013, and found the most popular houses through linear regression analysis. The future development of the real estate industry can be judged according to people???s demand for houses. direction.
+
+
+# 2. Data Description.
+##   2.1 data
+```{r}
+data = read.csv(file='Real estate.csv', col.names = c("transaction date","house age", "distance to the nearest MRT station", "number of convenience stores","latitude", "longitude","house price of unit area"))
+head(data)
+```
+
+First import the six dependent variables
+
+##   2.2 New Data Point
+```{r}
+new_data_point <-data.frame("transaction date"=c(2013.500),"house age"=c(20.15), "distance to the nearest MRT station"=c(3210.345), "number of convenience stores"=c(0),"latitude"=c(24.94657), "longitude"=c(121.5169),"house price of unit area"=c(26.3))
+head(new_data_point)
+```
+
+We added a new set of data to verify the universality of the dataset.
+
+##   2.3 Variable names
+```{r}
+data <- as.data.frame(matrix(rnorm(414),nrow=7))
+```
+
+```{r}
+plot(Real_estate)
+```
+
+
+```{r}
+pairs(X1, main=Real_estate)
+```
+
+```{r}
+cor(Real_estate)
+```
+# 3. Methods.
+
+##   3.1 Linear regression
+
+?????????????????????
+
+##     3.1.1 X1 and Y relations
+
+```{r}
+lm1= lm(Y.house.price.of.unit.area ~ X1.transaction.date, data = Real_estate) #Create the linear regression
+summary(lm1)
+```
+
+ The first factor affecting house prices is the date of house transaction.
+ 
+
+##     3.1.2 X2 and Y relations
+```{r}
+lm2= lm(Y.house.price.of.unit.area ~ X2.house.age, data = Real_estate) #Create the linear regression
+summary(lm2)
+```
+   
+    The second factor affecting house prices is the age of the house.
+
+
+##     2.3.3 X3 and Y relations
+```{r}
+lm3= lm(Y.house.price.of.unit.area ~ X3.distance.to.the.nearest.MRT.station, data = Real_estate) #Create the linear regression
+summary(lm3)
+```
+
+ The third factor affecting house prices is the distance from the house to the nearest subway station.
+
+
+##     2.3.4 X4 and Y relations
+
+```{r}
+lm4= lm(Y.house.price.of.unit.area ~ X4.number.of.convenience.stores, data = Real_estate) #Create the linear regression
+summary(lm4)
+```
+
+The fourth factor affecting house prices is the number of convenience stores near the house.
+
+
+##     2.3.5 X5 and Y relations
+
+```{r}
+lm5= lm(Y.house.price.of.unit.area ~ X5.latitude , data = Real_estate) #Create the linear regression
+summary(lm5)
+```
+
+The fifth factor that affects the price of a house is the dimension of the house.
+
+
+##     2.3.6 X6 and Y relations
+
+```{r}
+lm6 = lm(Y.house.price.of.unit.area ~ X6.longitude, data = Real_estate) #Create the linear regression
+summary(lm6)
+```
+
+ The sixth factor that affects house prices is the longitude of the house.
+
+
+##   3.2 Multiple regression
+```{r}
+Regression=lm(Real_estate$Y.house.price.of.unit.area~Real_estate$X1.transaction.date+Real_estate$X2.house.age+Real_estate$X3.distance.to.the.nearest.MRT.station+Real_estate$X4.number.of.convenience.stores+Real_estate$X5.latitude+Real_estate$X6.longitude)
+plot(Regression)
+summary(Regression)
+```
+```
+
+There are many factors that affect the price of real estate, and the most important factor that determines the value of real estate is location. Nowadays, the social economy is constantly developing, and the technology is also constantly innovating. With the continuous deepening of the urbanization process, the urban construction is becoming wider and wider. Therefore, convenient transportation has gradually entered our lives. For example, the invention of the subway has made everyone's travel more convenient. Therefore, the price of a house close to the subway station will increase accordingly. In addition, one of the most precious things in the future is fresh air. According to the data, apart from the houses near the subway station in the commercial district, it can be found that the price of the house near the subway station in the commercial district is relatively high.
+
+# 4. Results and Analysis.
+
+The house is the main component of the real estate industry, and its development directly affects the development of the real estate industry. First, we clarified the six major factors affecting housing demand, and then used multiple linear regression to analyze housing demand. The most popular housing can not only provide a reference for the government to control the housing market, but also is extremely important for the future development plan of the entire real estate industry.
+
+We believe that there are many factors that affect housing demand. We believe that the main impact on real estate price changes is its convenience for housing owners. According to linear regression, we found that although the service life of a house and its geographical location in latitude and longitude are factors that affect housing prices, it is not as important as the distance from subway stations and the number of convenience stores. Of course, it is impossible to define the direction of future real estate development just by analyzing these data. We also need to consider economic factors such as GDP, per capita housing expenditure, and the total population of the region.
+
+
+# 5.Appendix
+
+
